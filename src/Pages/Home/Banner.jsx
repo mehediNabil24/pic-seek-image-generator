@@ -3,13 +3,23 @@ import { Link } from 'react-router';
 
 const Banner = () => {
     return (
-        <div className="hero bg-base-200 min-h-screen">
+        <div className="hero bg-gradient-to-b lg:bg-gradient-to-l from-cyan-100 min-h-screen">
   <div className="hero-content text-center">
-    <div className="max-w-md">
-      <h1 className="text-5xl font-bold">Hello this is PicSeek</h1>
+    <div className="w-11/12 text-center">
+    <div className="flex justify-center py-5">
+            <img
+              src="https://img.icons8.com/?size=96&id=8gR77jBNhfyz&format=png"
+              alt=""
+              className="animate-bounce"
+            />
+          </div>
+    <h1 className="text-4xl  font-bold">
+            <span className="animate-pulse">🔍</span> PIC-SEEK: AI-Powered Image
+            Generator
+          </h1>
       <p className="py-6">
-        Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-        quasi. In deleniti eaque aut repudiandae et a id nisi.
+      Lets convert your creativity in the next level with Pic-Seek-AI.🎯
+      Find, Analyze & Explore Images Smarter with AI!
       </p>
       <Link to={'/generate'} className="btn btn-primary">Generate Image</Link>
     </div>
