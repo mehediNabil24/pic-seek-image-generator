@@ -3,6 +3,7 @@ import { useContext } from "react";
 // import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
+import PageTitle from "../Components/PageTtile";
 
 const Generate = () => {
   const { user, login } = useContext(AuthContext);
@@ -86,7 +87,7 @@ const Generate = () => {
   };
   return (
     <div>
-      {/* <PageTitle>🌱Let&apos;s Create 🐦‍🔥</PageTitle> */}
+      <PageTitle>🌱Let&apos;s Create 🐦‍🔥</PageTitle>
 
       <div className="w-11/12 mx-auto py-10">
         <div className="flex justify-center py-5">
