@@ -25,7 +25,8 @@ const Creations = () => {
       alt="Shoes" />
   </figure>
   <div className="card-body absolute bottom-0.5 left-0.5">
-    <Link to={`creation/${img._id}`} className='btn btn-secondary'>Details</Link>
+  <Link to={`/creation/${img._id}`} className='btn btn-secondary'>Details</Link>
+
    
   </div>
 </div>
