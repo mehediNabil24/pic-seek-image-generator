@@ -5,9 +5,11 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
 import PageTitle from "../Components/PageTtile";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const Generate = () => {
   const { user, login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const options = [
     "painting",
     "animated-image",
@@ -87,18 +89,46 @@ const Generate = () => {
     if (!validate(prompt, category)) return;
 
     console.log({ prompt, category });
+    Swal.fire({
+      title: "Processing...",
+      text: "Please wait while we generate your image.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+  
     axios
       .post("http://localhost:5000/api/v1/image/create", {
         email: user?.email,
         prompt,
         category,
-        username: user?.displayName || "Anonymus",
+        username: user?.displayName || "Anonymous",
         userImg:
           user?.photoURL ||
           "https://img.icons8.com/?size=96&id=z-JBA_KtSkxG&format=png",
       })
       .then((res) => {
         console.log(res.data);
+        // Close loading alert and show success message
+        Swal.fire({
+          title: "Success!",
+          text: "Your image has been successfully created.",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/creations");  // Navigate after success alert
+        });;
+      })
+      .catch((error) => {
+        console.error(error);
+        // Close loading alert and show error message
+        Swal.fire({
+          title: "Error!",
+          text: "Something went wrong. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       });
 
     // const blob = new Blob([buffer], { type: "image/jpeg" }); // Set correct MIME type
@@ -143,7 +173,7 @@ const Generate = () => {
             ))}
           </select>
           <div className="indicator">
-            <button className="btn join-item btn-primary">Create</button>
+            <button  className="btn join-item btn-primary">Create</button>
           </div>
         </form>
       </div>
