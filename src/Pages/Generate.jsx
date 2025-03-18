@@ -4,6 +4,7 @@ import { useContext } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
 import PageTitle from "../Components/PageTtile";
+import axios from "axios";
 
 const Generate = () => {
   const { user, login } = useContext(AuthContext);
@@ -45,14 +46,8 @@ const Generate = () => {
       return true;
     }
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    if (!checkUser()) return;
-
-    const form = e.target;
-    const prompt = form.prompt.value;
-    const category = form.category.value;
+  const validate = (prompt, category) => {
     // validation starts
     if (!category) {
       Swal.fire(
@@ -60,15 +55,15 @@ const Generate = () => {
         "Select a Category from the dropdown",
         "error"
       );
-      return;
+      return false;
     }
     if (!prompt) {
       Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
-      return;
+      return false;
     }
     if (!prompt) {
       Swal.fire("Write a Prompt", "Write a prompt in the input", "error");
-      return;
+      return false;
     }
     if (prompt.trim().length < 20) {
       Swal.fire(
@@ -76,15 +71,41 @@ const Generate = () => {
         "make your prompt bigger (minimum 20 character)",
         "error"
       );
-      return;
+      return false;
     }
     //validation End
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const prompt = form.prompt.value;
+    const category = form.category.value;
+
+    if (!checkUser()) return;
+    if (!validate(prompt, category)) return;
 
     console.log({ prompt, category });
-    const finalPrompt = `imagine a ${category} : ${prompt}`;
-    console.log(finalPrompt);
-    return;
+    axios
+      .post("http://localhost:5000/api/v1/image/create", {
+        email: user?.email,
+        prompt,
+        category,
+        username: user?.displayName || "Anonymus",
+        userImg:
+          user?.photoURL ||
+          "https://img.icons8.com/?size=96&id=z-JBA_KtSkxG&format=png",
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+
+    // const blob = new Blob([buffer], { type: "image/jpeg" }); // Set correct MIME type
+    // const url = URL.createObjectURL(blob);
+    // console.log(url);
   };
+
   return (
     <div>
       <PageTitle>🌱Let&apos;s Create 🐦‍🔥</PageTitle>
@@ -129,5 +150,6 @@ const Generate = () => {
     </div>
   );
 };
+
 
 export default Generate;
