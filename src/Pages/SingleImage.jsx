@@ -12,7 +12,7 @@ const SingleImage = () => {
 
   // Fetch Single Image Data
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/image/single/${id}`)
+    fetch(`https://pic-seek-server-theta.vercel.app/api/v1/image/single/${id}`)
       .then((res) => res.json())
       .then((data) => setImage(data))
       .catch((err) => console.error("Error fetching image:", err));
@@ -20,7 +20,7 @@ const SingleImage = () => {
 
   // Fetch Comments Related to the Image
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/comment/find/${id}`)
+    fetch(`https://pic-seek-server-theta.vercel.app/api/v1/comment/find/${id}`)
       .then((res) => res.json())
       .then((datas) => setComments(datas))
       .catch((err) => console.error("Error fetching comments:", err));
@@ -35,7 +35,7 @@ const SingleImage = () => {
     console.log(user.email, id, image.prompt,comment)
 
     try {
-      const res = await axios.post("http://localhost:5000/api/v1/comment/create", {
+      const res = await axios.post("https://pic-seek-server-theta.vercel.app/api/v1/comment/create", {
         email: user?.email,
         prompt: image.prompt,
         imageId: id,
@@ -71,7 +71,7 @@ const SingleImage = () => {
       </div>
 
       {/* Comment Input Field */}
-      <form onSubmit={handleSubmit} className="flex gap-2 mt-4">
+      <form onSubmit={handleSubmit} className="flex gap-2 mt-4 w-11/12 mx-auto">
         <input 
           type="text" 
           name="comment" 
@@ -83,6 +83,7 @@ const SingleImage = () => {
       </form>
 
       {/* Comments Section */}
+      <div className="w-11/12 mx-auto">
       {comments.length > 0 ? (
         comments.map((comment) => (
           <div key={comment._id} className="mt-4">
@@ -102,6 +103,7 @@ const SingleImage = () => {
       ) : (
         <p className="text-gray-500 mt-4">No comments yet. Be the first to comment!</p>
       )}
+      </div>
     </div>
   );
 };

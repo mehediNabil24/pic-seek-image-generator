@@ -99,7 +99,7 @@ const Generate = () => {
     });
   
     axios
-      .post("http://localhost:5000/api/v1/image/create", {
+      .post("https://pic-seek-server-theta.vercel.app/api/v1/image/create", {
         email: user?.email,
         prompt,
         category,
